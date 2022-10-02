@@ -1,8 +1,8 @@
 <template>
-  <v-container>
-    <v-navigation-drawer v-model="drawer" app>
-      <v-list-item>
-        <v-list-item-content>
+  <div>
+    <v-navigation-drawer v-model="drawer"  app>
+      <v-list-item style="color: #f1c41e;">
+        <v-list-item-content >
           <v-list-item-title class="text-h6">
             Sayburgh Solutions
           </v-list-item-title>
@@ -35,12 +35,12 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app>
+    <v-app-bar app style="background-color:white">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>Application</v-toolbar-title>
+      <v-toolbar-title>Home</v-toolbar-title>
     </v-app-bar>
-</v-container>
+  </div>
 </template>
 
 <script>
@@ -50,6 +50,10 @@ export default {
     items: [
           { title: 'Home', icon: 'mdi-home', to:'/home'},
           { title: 'Add Stuff', icon: 'mdi-plus-box', to:'/create' },
+          { title: 'Employee List', icon: 'mdi-account-hard-hat', to:'/employee' },
+          { title: 'Admin List', icon: 'mdi-account-card', to:'/admin' },
+          
+          
         ],
 }),
 };

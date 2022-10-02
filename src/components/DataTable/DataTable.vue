@@ -2,7 +2,8 @@
     <v-data-table
       :headers="headers"
       :items="desserts"
-      class="elevation-1"
+      class="elevation-2 mt-16 mx-5"
+      
     >
       <template v-slot:top>
         <v-toolbar
