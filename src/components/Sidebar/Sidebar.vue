@@ -38,13 +38,14 @@
     <v-app-bar app style="background-color:white">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>Home</v-toolbar-title>
+      <v-toolbar-title>{{toolbarTitle}}</v-toolbar-title>
     </v-app-bar>
   </div>
 </template>
 
 <script>
 export default {
+  props:['toolbarTitle'],
   data: () => ({ 
     drawer: null,
     items: [

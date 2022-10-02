@@ -1,6 +1,6 @@
 <template>
 <v-app id="inspire">
-    <Sidebar />
+    <Sidebar toolbarTitle="Home"/>
     <v-main>
       <v-card
       class="d-flex flex-row my-6"

@@ -10,6 +10,7 @@ import { faInstagram, faFacebook} from '@fortawesome/free-brands-svg-icons'
 
 library.add(faHouse, faInstagram,faPhone, faFacebook, faArrowRight)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
+
 Vue.config.productionTip = false
 
 new Vue({
