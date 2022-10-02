@@ -10,7 +10,7 @@
         <v-list-item-title class="text-h5 mb-1">
           Total Number of {{Category}}
         </v-list-item-title>
-        <v-list-item-title  class="text-h5 mb-1" :style="{color: textColor}">120</v-list-item-title>
+        <v-list-item-title  class="text-h5 mb-1" :style="{color: textColor}">{{count}}</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
 
@@ -30,7 +30,7 @@
 
 <script>
 export default {
-props:['Category', 'color','textColor', 'btnBg','to']
+props:['Category', 'color','textColor', 'btnBg','to', 'count']
 }
 </script>
 

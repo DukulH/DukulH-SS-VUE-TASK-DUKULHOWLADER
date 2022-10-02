@@ -13,8 +13,10 @@ export default new Vuex.Store({
       category: null,
     },
     items: ["Admin", "Employee"],
+    stuffs:[],
+    emp_count:0,
+    admin_count:0,
   },
-  getters: {},
   actions: {
     clearState({ commit }) {
       commit("Clear_State");
@@ -22,6 +24,10 @@ export default new Vuex.Store({
     handleSubmit({commit, state}) {
       commit('Handle_Submit');
       return Promise.resolve('200')
+    },
+    setStuffs({commit}){
+      const data = JSON.parse(localStorage.getItem('StuffsData'))
+      commit('Set_Stuffs',data)
     },
   },
   mutations: {
@@ -43,6 +49,23 @@ export default new Vuex.Store({
       state.userData.email = "";
       state.userData.category = null;
     },
+    Set_Stuffs(state, response) {
+      state.stuffs = response
+    },
+  },
+  getters: {
+    getEmployee(state) {
+      return state.stuffs.filter(item => item.category === 'Employee' )
+    },
+    getAdmin(state) {
+      return state.stuffs.filter(item => item.category === 'Admin' )
+    },
+    getEmpCount(state){
+      return state.emp_count = state.stuffs.filter(item => item.category === 'Employee' ).length 
+    },
+    getAdminCount(state){
+      return state.admin_count = state.stuffs.filter(item => item.category === 'Admin' ).length 
+    }
   },
 
   modules: {},
