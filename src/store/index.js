@@ -13,34 +13,61 @@ export default new Vuex.Store({
       category: null,
     },
     items: ["Admin", "Employee"],
-    stuffs:[],
-    emp_count:0,
-    admin_count:0,
+    employees: [],
+    admins: [],
+    emp_count: 0,
+    admin_count: 0,
   },
   actions: {
     clearState({ commit }) {
       commit("Clear_State");
     },
-    handleSubmit({commit, state}) {
-      commit('Handle_Submit');
-      return Promise.resolve('200')
+    handleSubmit({ commit, state }) {
+      commit("Handle_Submit");
+      return Promise.resolve("200");
     },
-    setStuffs({commit}){
-      const data = JSON.parse(localStorage.getItem('StuffsData'))
-      commit('Set_Stuffs',data)
+    setAdmins({ commit }) {
+      const data = JSON.parse(localStorage.getItem("AdminsData"));
+      commit("Set_Admins", data);
+    },
+    setEmployees({ commit }) {
+      const data = JSON.parse(localStorage.getItem("EmployeesData"));
+      commit("Set_Employees", data);
+    },
+    handleDelete({ commit, state }, item) {
+      commit("Handle_Delete", item);
+      return Promise.resolve("200");
     },
   },
   mutations: {
     Handle_Submit(state) {
-      if (JSON.parse(localStorage.getItem("StuffsData"))) {
-        const existingData = JSON.parse(localStorage.getItem("StuffsData"));
-        const newArray = [...existingData, state.userData]
-        localStorage.setItem("StuffsData", JSON.stringify(newArray));
-      } else {
-        const newData =[]
-        newData.push(state.userData);
-        localStorage.setItem("StuffsData", JSON.stringify(newData));
+      if (state.userData.category === "Employee") {
+        if (JSON.parse(localStorage.getItem("EmployeesData"))) {
+          const existingData = JSON.parse(
+            localStorage.getItem("EmployeesData")
+          );
+          const newArray = [...existingData, state.userData];
+          localStorage.setItem("EmployeesData", JSON.stringify(newArray));
+        } else {
+          const newData = [];
+          newData.push(state.userData);
+          localStorage.setItem("EmployeesData", JSON.stringify(newData));
+        }
       }
+      if (state.userData.category === "Admin") {
+        if (JSON.parse(localStorage.getItem("AdminsData"))) {
+          const existingData = JSON.parse(localStorage.getItem("AdminsData"));
+          const newArray = [...existingData, state.userData];
+          localStorage.setItem("AdminsData", JSON.stringify(newArray));
+        } else {
+          const newData = [];
+          newData.push(state.userData);
+          localStorage.setItem("AdminsData", JSON.stringify(newData));
+        }
+      }
+      // const existingData = JSON.parse(localStorage.getItem("StuffsData"));
+      // const newArray = [...existingData, state.userData];
+      // localStorage.setItem("StuffsData", JSON.stringify(newArray));
     },
 
     Clear_State(state) {
@@ -49,23 +76,38 @@ export default new Vuex.Store({
       state.userData.email = "";
       state.userData.category = null;
     },
-    Set_Stuffs(state, response) {
-      state.stuffs = response
+    Set_Admins(state, response) {
+      state.admins = response;
+    },
+    Set_Employees(state, response) {
+      state.employees = response;
+    },
+    Handle_Delete(state, item) {
+      if (item.category === "Admin") {
+        const existingData = JSON.parse(localStorage.getItem("AdminsData"));
+        existingData.splice(item.index, 1);
+        localStorage.setItem("AdminsData", JSON.stringify(existingData));
+      }
+      if (item.category === "Employee") {
+        const existingData = JSON.parse(localStorage.getItem("EmployeesData"));
+        existingData.splice(item.index, 1);
+        localStorage.setItem("EmployeesData", JSON.stringify(existingData));
+      }
     },
   },
   getters: {
     getEmployee(state) {
-      return state.stuffs.filter(item => item.category === 'Employee' )
+      return state.employees;
     },
     getAdmin(state) {
-      return state.stuffs.filter(item => item.category === 'Admin' )
+      return state.admins;
     },
-    getEmpCount(state){
-      return state.emp_count = state.stuffs.filter(item => item.category === 'Employee' ).length 
+    getEmpCount(state) {
+      // return state.emp_count = state.employees.length;
     },
-    getAdminCount(state){
-      return state.admin_count = state.stuffs.filter(item => item.category === 'Admin' ).length 
-    }
+    getAdminCount(state) {
+      // return state.admin_count = state.admins.length ;
+    },
   },
 
   modules: {},

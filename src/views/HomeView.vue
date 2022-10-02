@@ -10,7 +10,7 @@
     <HomeCard Category="Employee" :count="emp_count" to="/employee" color="#010001" btnBg="#010001" textColor="#fbfbfb"/>
     <HomeCard  Category="Admin" :count="admin_count" to="/admin" btnBg="White" />
     </v-card>
-      <DataTable :items="stuffs" Category="Admin" />
+      <DataTable :items="admins" Category="Admin" />
     </v-main>
 </v-app>
 </template>
@@ -28,12 +28,11 @@ export default {
         ...mapGetters({
           emp_count:'getEmpCount',
           admin_count:'getAdminCount',
-          stuffs:'getAdmin'
+          admins:'getAdmin'
         })
     },
     created(){
-        this.$store.dispatch('setStuffs');
-        console.log(this.emp_count)
+        this.$store.dispatch('setAdmins');
     }, 
 };
 </script>

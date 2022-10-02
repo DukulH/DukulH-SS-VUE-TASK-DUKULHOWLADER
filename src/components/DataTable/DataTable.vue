@@ -1,7 +1,7 @@
 <template>
     <v-data-table
       :headers="headers"
-      :items="items"
+      :items="items || []"
       class="elevation-2 mt-16 mx-5"
       
     >
@@ -112,9 +112,9 @@
               </v-card-actions>
             </v-card>
           </v-dialog> -->
-          <!-- <v-dialog v-model="dialogDelete" max-width="500px">
+          <v-dialog v-model="dialogDelete" max-width="500px">
             <v-card>
-              <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
+              <v-card-title class="text-h6">Are you sure you want to delete this {{Category}}?</v-card-title>
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
@@ -122,7 +122,7 @@
                 <v-spacer></v-spacer>
               </v-card-actions>
             </v-card>
-          </v-dialog> -->
+          </v-dialog>
         </v-toolbar>
       </template>
       <template v-slot:[`item.actions`]="{ item }">
@@ -132,6 +132,13 @@
           @click="editItem(item)"
         >
           mdi-pencil
+        </v-icon>
+        <v-icon
+          small
+          class="mr-2"
+          @click="viewItem(item)"
+        >
+          mdi-account-eye
         </v-icon>
         <v-icon
           small
@@ -164,6 +171,10 @@
         ],
         desserts: [],
         editedIndex: -1,
+        deletedItem:{
+          category:'',
+          index:null,
+        },
         editedItem: {
           name: '',
           calories: 0,
@@ -179,13 +190,6 @@
           protein: 0,
         },
       }),
-  
-      computed: {
-        formTitle () {
-          return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
-        },
-      },
-  
       watch: {
         dialog (val) {
           val || this.close()
@@ -194,22 +198,26 @@
           val || this.closeDelete()
         },
       },
-      
+
       methods: {
-        editItem (item) {
-          this.editedIndex = this.desserts.indexOf(item)
-          this.editedItem = Object.assign({}, item)
-          this.dialog = true
+        // editItem (item) {
+        //   this.editedIndex = this.desserts.indexOf(item)
+        //   this.editedItem = Object.assign({}, item)
+        //   this.dialog = true
+        // },
+        viewItem(item){
+          const index = this.items.indexOf(item)
+          this.$router.push({path:'/StuffView', params:{index}})
         },
   
         deleteItem (item) {
-          this.editedIndex = this.desserts.indexOf(item)
-          this.editedItem = Object.assign({}, item)
+          this.deletedItem.category = item.category
+          this.deletedItem.index = this.items.indexOf(item)
           this.dialogDelete = true
         },
   
         deleteItemConfirm () {
-          this.desserts.splice(this.editedIndex, 1)
+          this.$store.dispatch('handleDelete', this.deletedItem)
           this.closeDelete()
         },
   
@@ -223,10 +231,8 @@
   
         closeDelete () {
           this.dialogDelete = false
-          this.$nextTick(() => {
-            this.editedItem = Object.assign({}, this.defaultItem)
-            this.editedIndex = -1
-          })
+          this.$store.dispatch('setAdmins')
+          this.$store.dispatch('setEmployees')
         },
   
         save () {

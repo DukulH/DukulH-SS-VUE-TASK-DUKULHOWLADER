@@ -2,7 +2,7 @@
     <v-app id="inspire">
         <Sidebar toolbarTitle="Admin List"/>
         <v-main>
-          <DataTable :items="stuffs" Category="Admin"/>
+          <DataTable :items="admins" Category="Admin"/>
         </v-main>
     </v-app>
     </template>
@@ -16,11 +16,11 @@ export default {
     components: { Sidebar, DataTable },
     computed:{
         ...mapGetters({
-            stuffs:'getAdmin'
+            admins:'getAdmin'
         })
     },
     created(){
-        this.$store.dispatch('setStuffs')
+        this.$store.dispatch('setAdmins')
     }, 
 }
 </script>
