@@ -13,29 +13,31 @@ export default new Vuex.Store({
       category: null,
     },
     items: ["Admin", "Employee"],
-    Stuff: [],
-    existingStuff: [],
   },
   getters: {},
   actions: {
     clearState({ commit }) {
-      commit("clearState");
+      commit("Clear_State");
     },
-    submit({ commit, state }) {
-      if (JSON.parse(localStorage.getItem("StuffData"))) {
-        state.existingStuff = JSON.parse(localStorage.getItem("StuffData"));
-        state.existingStuff.push(state.userData);
-        localStorage.setItem("StuffsData", JSON.stringify(state.existingStuff));
-        commit("clearState");
-      } else {
-        state.existingStuff.push(state.userData);
-        localStorage.setItem("StuffsData", JSON.stringify(state.existingStuff));
-        commit("clearState");
-      }
+    handleSubmit({commit, state}) {
+      commit('Handle_Submit');
+      return Promise.resolve('200')
     },
   },
   mutations: {
-    clearState(state) {
+    Handle_Submit(state) {
+      if (JSON.parse(localStorage.getItem("StuffsData"))) {
+        const existingData = JSON.parse(localStorage.getItem("StuffsData"));
+        const newArray = [...existingData, state.userData]
+        localStorage.setItem("StuffsData", JSON.stringify(newArray));
+      } else {
+        const newData =[]
+        newData.push(state.userData);
+        localStorage.setItem("StuffsData", JSON.stringify(newData));
+      }
+    },
+
+    Clear_State(state) {
       (state.userData.empID = ""), (state.userData.name = "");
       state.userData.phoneNumber = "";
       state.userData.email = "";

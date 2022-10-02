@@ -2,9 +2,22 @@
   <v-app id="inspire">
     <Sidebar toolbarTitle="Create Stuff" />
     <v-main>
+      <v-alert
+      class="mt-4"
+      dense
+      text
+      type="success"
+      :value="alertToggle"
+      dismissible
+      shaped
+      outlined
+      width="300px"
+      style="float: right;"
+    >Stuff Added Successfully!!
+    </v-alert>
       <v-container class="elevation-5 mt-16">
         <validation-observer ref="observer" v-slot="{ invalid }">
-          <form @submit.prevent="$store.dispatch('submit')" class="px-10">
+          <form @submit.prevent="submit" class="px-10">
             <validation-provider
               v-slot="{ errors }"
               name="empID"
@@ -131,7 +144,9 @@ export default {
     ValidationProvider,
     ValidationObserver,
   },
-  data: () => ({}),
+  data: () => ({
+    alertToggle: false,
+  }),
 
   computed:{
     user(){
@@ -140,11 +155,19 @@ export default {
   },
 
   methods: {
-    
     clear() {
-      this.$store.dispatch('clearState')
+      this.$store.dispatch('clearState');
       this.$refs.observer.reset();
     },
+    submit(){
+        this.$store.dispatch('handleSubmit')
+        .then(response => {
+          if(response){
+            return this.alertToggle = true;
+          }
+        });
+        this.clear();
+    }
   },
 };
 </script>
