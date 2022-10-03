@@ -9,73 +9,116 @@
         <v-toolbar-title>{{ Category }} List</v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
+        <!-- Edit dialog starts -->
         <v-dialog v-model="dialog" max-width="400px">
           <v-card>
-        <validation-observer ref="observer" v-slot="{ invalid }">
-          <form @submit.prevent="update" class="px-10 py-10">
-            <validation-provider
-              v-slot="{ errors }"
-              name="empID"
-              rules="required|max:3"
-            >
-              <v-text-field
-                v-model="editedItem.empID"
-                :counter="3"
-                :error-messages="errors"
-                label="Employee ID"
-                required
-              ></v-text-field>
-            </validation-provider>
-            <validation-provider
-              v-slot="{ errors }"
-              name="Name"
-              rules="required|max:50"
-            >
-              <v-text-field
-                v-model="editedItem.name"
-                :counter="50"
-                :error-messages="errors"
-                label="Employee Name"
-                required
-              ></v-text-field>
-            </validation-provider>
-            <validation-provider
-              v-slot="{ errors }"
-              name="phoneNumber"
-              :rules="{
-                required: true,
-                digits: 11,
-                regex: '^(01)\\d{9}$',
-              }"
-            >
-              <v-text-field
-                v-model="editedItem.phoneNumber"
-                :counter="11"
-                :error-messages="errors"
-                label="Phone Number"
-                required
-              ></v-text-field>
-            </validation-provider>
-            <validation-provider
-              v-slot="{ errors }"
-              name="email"
-              rules="required|email"
-            >
-              <v-text-field
-                v-model="editedItem.email"
-                :error-messages="errors"
-                label="E-mail"
-                required
-              ></v-text-field>
-            </validation-provider>
-            <v-btn class="mr-4" type="submit" :disabled="invalid">
-              update
-            </v-btn>
-            <v-btn @click="close"> close </v-btn>
-          </form>
-        </validation-observer>
+            <validation-observer ref="observer" v-slot="{ invalid }">
+              <form @submit.prevent="update" class="px-10 py-10">
+                <validation-provider
+                  v-slot="{ errors }"
+                  name="empID"
+                  rules="required|max:3"
+                >
+                  <v-text-field
+                    v-model="editedItem.empID"
+                    :counter="3"
+                    :error-messages="errors"
+                    label="Employee ID"
+                    required
+                  ></v-text-field>
+                </validation-provider>
+                <validation-provider
+                  v-slot="{ errors }"
+                  name="Name"
+                  rules="required|max:50"
+                >
+                  <v-text-field
+                    v-model="editedItem.name"
+                    :counter="50"
+                    :error-messages="errors"
+                    label="Employee Name"
+                    required
+                  ></v-text-field>
+                </validation-provider>
+                <validation-provider
+                  v-slot="{ errors }"
+                  name="phoneNumber"
+                  :rules="{
+                    required: true,
+                    digits: 11,
+                    regex: '^(01)\\d{9}$',
+                  }"
+                >
+                  <v-text-field
+                    v-model="editedItem.phoneNumber"
+                    :counter="11"
+                    :error-messages="errors"
+                    label="Phone Number"
+                    required
+                  ></v-text-field>
+                </validation-provider>
+                <validation-provider
+                  v-slot="{ errors }"
+                  name="email"
+                  rules="required|email"
+                >
+                  <v-text-field
+                    v-model="editedItem.email"
+                    :error-messages="errors"
+                    label="E-mail"
+                    required
+                  ></v-text-field>
+                </validation-provider>
+                <v-btn class="mr-4" type="submit" :disabled="invalid">
+                  update
+                </v-btn>
+                <v-btn @click="close"> close </v-btn>
+              </form>
+            </validation-observer>
           </v-card>
         </v-dialog>
+
+        <!-- Edit dialog ends -->
+
+        <!-- View dialog starts -->
+        <v-dialog max-width="600px" v-model="dialogView">
+          <v-card>
+            <v-list-item class="px-16 py-16">
+              <v-list-item-content>
+                <v-list-item-title class="text-h5 mb-1">
+                  {{ viewedItem.name }}
+                </v-list-item-title>
+                <v-list-item-subtitle class="my-5">
+                  Employee ID: {{ viewedItem.empID }}</v-list-item-subtitle
+                >
+                <v-list-item-subtitle class="my-5">
+                  <v-icon> mdi-phone</v-icon> {{ viewedItem.phoneNumber }}
+                </v-list-item-subtitle>
+                <v-list-item-subtitle class="my-5">
+                  <v-icon> mdi-email</v-icon
+                  > {{ viewedItem.email }}</v-list-item-subtitle
+                >
+                <v-list-item-subtitle class="my-5">
+                  <v-icon> mdi-account-hard-hat</v-icon
+                  > {{ viewedItem.category }}</v-list-item-subtitle
+                >
+              </v-list-item-content>
+
+              <v-list-item-avatar
+                tile
+                size="80"
+                color="grey"
+              ></v-list-item-avatar>
+            </v-list-item>
+
+            <v-card-actions>
+              <v-btn outlined rounded text> Button </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+        <!-- View dialog ends -->
+
+        <!-- Delete dialog starts -->
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
             <v-card-title class="text-h6"
@@ -94,6 +137,7 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+        <!-- Delete dialog ends -->
       </v-toolbar>
     </template>
     <template v-slot:[`item.actions`]="{ item }">
@@ -107,7 +151,7 @@
 </template>
 
 <script>
-  import { required, digits, email, max, regex } from "vee-validate/dist/rules";
+import { required, digits, email, max, regex } from "vee-validate/dist/rules";
 import {
   extend,
   ValidationObserver,
@@ -143,13 +187,14 @@ extend("email", {
 
 export default {
   props: ["Category", "items"],
-  components:{
+  components: {
     ValidationProvider,
     ValidationObserver,
   },
   data: () => ({
     dialog: false,
     dialogDelete: false,
+    dialogView: false,
     headers: [
       {
         text: "Employee ID",
@@ -170,13 +215,14 @@ export default {
       index: null,
     },
     editedItem: {
-      empID:"",
+      empID: "",
       name: "",
       category: null,
       email: "",
       phoneNumber: null,
     },
-    defaultItem: {
+    viewedItem: {
+      empID: "",
       name: "",
       category: null,
       email: "",
@@ -190,6 +236,9 @@ export default {
     dialogDelete(val) {
       val || this.closeDelete();
     },
+    dialogView(val) {
+      val || this.closeView();
+    },
   },
 
   methods: {
@@ -199,8 +248,8 @@ export default {
       this.dialog = true;
     },
     viewItem(item) {
-      const index = this.items.indexOf(item);
-      this.$router.push({ path: "/StuffView", params: { index } });
+      this.viewedItem = Object.assign({}, item);
+      this.dialogView = true;
     },
 
     deleteItem(item) {
@@ -217,7 +266,6 @@ export default {
     close() {
       this.dialog = false;
       this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
       });
     },
@@ -227,14 +275,16 @@ export default {
       this.$store.dispatch("setAdmins");
       this.$store.dispatch("setEmployees");
     },
-
+    closeView() {
+      this.dialogView = false;
+    },
     update() {
       if (this.editedIndex > -1) {
-        this.editedItem['index'] = this.editedIndex;
-        this.$store.dispatch('handleUpdate', this.editedItem);
-      } 
-      this.$store.dispatch('setAdmins');
-      this.$store.dispatch('setEmployees');
+        this.editedItem["index"] = this.editedIndex;
+        this.$store.dispatch("handleUpdate", this.editedItem);
+      }
+      this.$store.dispatch("setAdmins");
+      this.$store.dispatch("setEmployees");
       this.close();
     },
   },
