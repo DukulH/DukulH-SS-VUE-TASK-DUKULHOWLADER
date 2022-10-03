@@ -32,6 +32,7 @@ export default {
         })
     },
     created(){
+        this.$store.dispatch('setEmployees'); 
         this.$store.dispatch('setAdmins');
     }, 
 };

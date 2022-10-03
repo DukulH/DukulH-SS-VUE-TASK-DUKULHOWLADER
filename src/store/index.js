@@ -38,6 +38,10 @@ export default new Vuex.Store({
       commit("Handle_Delete", item);
       return Promise.resolve("200");
     },
+    handleUpdate({commit, state}, payload){
+      commit('Handle_Update', payload);
+      return Promise.resolve('200');
+    }
   },
   mutations: {
     Handle_Submit(state) {
@@ -94,6 +98,34 @@ export default new Vuex.Store({
         localStorage.setItem("EmployeesData", JSON.stringify(existingData));
       }
     },
+    Handle_Update(state, payload){
+      if (payload.category === "Admin") {
+        const existingData = JSON.parse(localStorage.getItem("AdminsData"));
+        let existingDataObject = existingData[payload.index];
+        existingDataObject = {
+          empID:payload.empID,
+          name:payload.name,
+          phoneNumber:payload.phoneNumber,
+          email:payload.email,
+          category:payload.category,
+        }
+        existingData[payload.index] = existingDataObject
+        localStorage.setItem("AdminsData", JSON.stringify(existingData));
+      }
+      if (payload.category === "Employee") {
+        const existingData = JSON.parse(localStorage.getItem("EmployeesData"));
+        let existingDataObject = existingData[payload.index];
+        existingDataObject = {
+          empID:payload.empID,
+          name:payload.name,
+          phoneNumber:payload.phoneNumber,
+          email:payload.email,
+          category:payload.category,
+        }
+        existingData[payload.index] = existingDataObject
+        localStorage.setItem("EmployeesData", JSON.stringify(existingData));
+      }
+    }
   },
   getters: {
     getEmployee(state) {
@@ -103,10 +135,20 @@ export default new Vuex.Store({
       return state.admins;
     },
     getEmpCount(state) {
-      // return state.emp_count = state.employees.length;
+      if(state.employees.length){
+        return state.emp_count = state.employees.length;
+      }
+      else {
+        return state.emp_count = 0;
+      }
     },
     getAdminCount(state) {
-      // return state.admin_count = state.admins.length ;
+      if(state.employees.length){
+        return state.admin_count = state.admins.length;
+      }
+      else {
+        return state.admin_count = 0;
+      }
     },
   },
 
