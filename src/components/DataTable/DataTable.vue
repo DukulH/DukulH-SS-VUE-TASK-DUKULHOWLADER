@@ -10,7 +10,7 @@
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <!-- Edit dialog starts -->
-        <v-dialog v-model="dialog" max-width="400px">
+        <v-dialog v-model="dialog" max-width="600px">
           <v-card>
             <validation-observer ref="observer" v-slot="{ invalid }">
               <form @submit.prevent="update" class="px-10 py-10">

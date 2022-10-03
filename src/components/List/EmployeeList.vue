@@ -4,6 +4,7 @@
         <v-main>
           <DataTable :items="employees" Category="Employee"/>
         </v-main>
+        <Footer />
     </v-app>
     </template>
 
@@ -11,9 +12,10 @@
 import Sidebar from '../Sidebar/Sidebar.vue';
 import DataTable from '../DataTable/DataTable.vue';
 import { mapGetters } from 'vuex';
+import Footer from '../Footer/Footer.vue';
 export default {
     name:'EmployeeList',
-    components: { Sidebar, DataTable },
+    components: { Sidebar, DataTable, Footer },
     computed:{
         ...mapGetters({
             employees:'getEmployee'

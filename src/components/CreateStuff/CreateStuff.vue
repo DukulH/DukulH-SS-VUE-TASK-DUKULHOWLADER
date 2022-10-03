@@ -21,11 +21,11 @@
             <validation-provider
               v-slot="{ errors }"
               name="empID"
-              rules="required|max:3"
+              rules="required|max:10"
             >
               <v-text-field
                 v-model="user.empID"
-                :counter="3"
+                :counter="10"
                 :error-messages="errors"
                 label="Employee ID"
                 required
@@ -96,6 +96,7 @@
         </validation-observer>
       </v-container>
     </v-main>
+    <Footer />
   </v-app>
 </template>
 
@@ -109,6 +110,7 @@ import {
   setInteractionMode,
 } from "vee-validate";
 import store from '@/store';
+import Footer from "../Footer/Footer.vue";
 
 setInteractionMode("eager");
 
@@ -143,7 +145,8 @@ export default {
     Sidebar,
     ValidationProvider,
     ValidationObserver,
-  },
+    Footer
+},
   data: () => ({
     alertToggle: false,
   }),

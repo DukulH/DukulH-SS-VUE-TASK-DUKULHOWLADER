@@ -11,7 +11,9 @@
     <HomeCard  Category="Admin" :count="admin_count" to="/admin" btnBg="White" />
     </v-card>
       <DataTable :items="admins" Category="Admin" />
+      
     </v-main>
+    <Footer />
 </v-app>
 </template>
 
@@ -20,10 +22,11 @@ import Sidebar from '@/components/Sidebar/Sidebar.vue';
 import DataTable from '@/components/DataTable/DataTable.vue';
 import HomeCard from '@/components/HomeCard/HomeCard.vue';
 import { mapGetters } from 'vuex';
+import Footer from '@/components/Footer/Footer.vue';
 
 export default {
     name: "Home",
-    components: { Sidebar, DataTable, HomeCard },
+    components: { Sidebar, DataTable, HomeCard, Footer },
     computed:{
         ...mapGetters({
           emp_count:'getEmpCount',
