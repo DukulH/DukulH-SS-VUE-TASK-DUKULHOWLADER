@@ -88,10 +88,10 @@
               ></v-select>
             </validation-provider>
 
-            <v-btn class="mr-4" type="submit" :disabled="invalid">
+            <v-btn class="mr-4" text color="primary" type="submit" :disabled="invalid">
               submit
             </v-btn>
-            <v-btn @click="clear"> clear </v-btn>
+            <v-btn @click="clear" text color="red"> clear </v-btn>
           </form>
         </validation-observer>
       </v-container>

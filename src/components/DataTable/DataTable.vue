@@ -69,10 +69,10 @@
                     required
                   ></v-text-field>
                 </validation-provider>
-                <v-btn class="mr-4" type="submit" :disabled="invalid">
+                <v-btn class="mr-4" text color="success" type="submit" :disabled="invalid">
                   update
                 </v-btn>
-                <v-btn @click="close"> close </v-btn>
+                <v-btn @click="close" text color="red"> close </v-btn>
               </form>
             </validation-observer>
           </v-card>
@@ -83,7 +83,7 @@
         <!-- View dialog starts -->
         <v-dialog max-width="600px" v-model="dialogView">
           <v-card>
-            <v-list-item class="px-16 py-16">
+            <v-list-item class="px-16 pt-16 pb-8">
               <v-list-item-content>
                 <v-list-item-title class="text-h5 mb-1">
                   {{ viewedItem.name }}
@@ -98,7 +98,7 @@
                   <v-icon> mdi-email</v-icon
                   > {{ viewedItem.email }}</v-list-item-subtitle
                 >
-                <v-list-item-subtitle class="my-5">
+                <v-list-item-subtitle class="mt-5">
                   <v-icon> mdi-account-hard-hat</v-icon
                   > {{ viewedItem.category }}</v-list-item-subtitle
                 >
@@ -106,13 +106,13 @@
 
               <v-list-item-avatar
                 tile
-                size="80"
+                size="100"
                 color="grey"
               ></v-list-item-avatar>
             </v-list-item>
 
-            <v-card-actions>
-              <v-btn outlined rounded text> Button </v-btn>
+            <v-card-actions class="px-16 pb-10">
+              <v-btn text color="red" @click="closeView"> close </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -127,7 +127,7 @@
             >
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="closeDelete"
+              <v-btn color="red" text @click="closeDelete"
                 >Cancel</v-btn
               >
               <v-btn color="blue darken-1" text @click="deleteItemConfirm"
@@ -204,7 +204,6 @@ export default {
       },
       { text: "Employee Name", value: "name" },
       { text: "Category", value: "category" },
-      { text: "Email", value: "email" },
       { text: "Phone Number", value: "phoneNumber" },
       { text: "Actions", value: "actions", sortable: false },
     ],
